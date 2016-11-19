@@ -1,31 +1,34 @@
 const electron = require('electron')
-// Module to control application life.
+// Modul utama untuk mengendalikan aplikasi Elektron
 const app = electron.app
-// Module to create native browser window.
+// Modul untuk membuat jendala native (asli) peramban
 const BrowserWindow = electron.BrowserWindow
 
 const path = require('path')
 const url = require('url')
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
+// Untuk menginisialiasi dan menjaga object window, jika ini tidak dilakukan
+// jendala peramban akan secara otomatis akan masuk kedalam gerbage collector.
 let mainWindow
 
 function createWindow () {
-  // Create the browser window.
+  // Membuat jendala peramban baru dengan tinggi dan lebar yang telah ditentukan (dalam satuan pixel)
   mainWindow = new BrowserWindow({width: 800, height: 600})
 
-  // and load the index.html of the app.
+  // Memuat file index.html dalam aplikasi ini
   mainWindow.loadURL(url.format({
+    // Perhatikan index.html berada pada satu level dengan main.js
     pathname: path.join(__dirname, 'index.html'),
     protocol: 'file:',
     slashes: true
   }))
 
-  // Open the DevTools.
+  // Untuk membukan Developer Tools
+  // Cukup beri komentar seperti dibawah untuk menyembunyikannya atau hapus komentar untuk menampilkanya
+
   // mainWindow.webContents.openDevTools()
 
-  // Emitted when the window is closed.
+  // perintah ini akan dijalankan ketika jendela ditutup
   mainWindow.on('closed', function () {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
@@ -34,23 +37,23 @@ function createWindow () {
   })
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
+// Method ini akan di panggil ketika Electron telah selesai melakukan compilasi
+// Di inisialisasi dan ketika siap maka akan menjalankan createWindow yang artinya membuat jendala baru
 // Some APIs can only be used after this event occurs.
 app.on('ready', createWindow)
 
-// Quit when all windows are closed.
+// Blok code ini akan dijalankan ketika semua window ditutup, beda dengan closed
 app.on('window-all-closed', function () {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
+  // Khusus untuk MacOS X umumnya harus menutup aplikasi dari menubar
+  // Jadi pengguna harus secara eksplisit menutup nya, misal denan Cmd + Q
   if (process.platform !== 'darwin') {
     app.quit()
   }
 })
 
 app.on('activate', function () {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
+  // Khusus untuk MacOS X, biasanya akan membuat ulang jendala aplikasi
+  // ketika pengguna menekan icon pada dock (pada bagian bawah tampilan desktop)
   if (mainWindow === null) {
     createWindow()
   }
