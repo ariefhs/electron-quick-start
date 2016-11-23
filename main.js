@@ -28,6 +28,8 @@ function createWindow () {
 
   // mainWindow.webContents.openDevTools()
 
+  // hilangkan menubar
+  mainWindow.setMenu(null)
   // perintah ini akan dijalankan ketika jendela ditutup
   mainWindow.on('closed', function () {
     // Dereference the window object, usually you would store windows
